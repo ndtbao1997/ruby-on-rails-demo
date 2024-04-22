@@ -1,0 +1,2 @@
+class RestProductDetailsController < ApplicationController
+end

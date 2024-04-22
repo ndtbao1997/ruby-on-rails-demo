@@ -1,0 +1,24 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  collation: utf8mb4_bin
+  username: <%= ENV.fetch("MYSQL_USERNAME") { "root" } %>
+  password: <%= ENV.fetch("MYSQL_PASSWORD") { "123456" } %>
+  host: <%= ENV.fetch("MYSQL_HOST") { "127.0.0.1" } %>
+  port: <%= ENV.fetch("MYSQL_PORT") { 3306 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: <%= ENV.fetch("MYSQL_DATABASE") { "demo_development" } %>
+
+test:
+  <<: *default
+  database: demo_test
+
+production:
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= (ENV["DATABASE_URL"] || ENV["JAWSDB_URL"] || ENV["CLEARDB_DATABASE_URL"])&.sub("mysql://", "mysql2://") %>
